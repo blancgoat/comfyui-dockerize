@@ -1,0 +1,19 @@
+services:
+  comfy-ui:
+    build: /docker
+    ports:
+      - "${WEBUI_PORT:-8188}:8188"
+    volumes:
+      - models:/comfyUI/models
+      - ./data/outputs:/comfyUI/output
+    stop_signal: SIGKILL
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+              - driver: nvidia
+                device_ids: ['0']
+                capabilities: [compute, utility]
+volumes:
+  models:
