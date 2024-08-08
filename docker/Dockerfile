@@ -6,10 +6,11 @@ RUN apt-get update
 RUN apt-get -y install git
 
 WORKDIR /comfyUI
-RUN git clone https://github.com/comfyanonymous/ComfyUI.git .
-RUN git reset --hard v0.0.4
+RUN git clone --branch v0.0.4 https://github.com/comfyanonymous/ComfyUI.git .
 
 RUN pip install -r requirements.txt
+
+RUN git clone --branch 2.48.6 https://github.com/ltdrdata/ComfyUI-Manager.git ./custom_nodes/ComfyUI-Manager
   
 ENV NVIDIA_VISIBLE_DEVICES=all
 EXPOSE 8188
