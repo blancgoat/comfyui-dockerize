@@ -12,14 +12,12 @@ services:
       - models:/comfyUI/models
       - custom-nodes:/comfyUI/custom_nodes
       - ./data/outputs:/comfyUI/output
-    stop_signal: SIGKILL
-    tty: true
     deploy:
       resources:
         reservations:
           devices:
               - driver: nvidia
-                device_ids: ['0']
+                count: all
                 capabilities: [compute, utility]
 volumes:
   models:
