@@ -5,6 +5,7 @@ services:
       - "${WEBUI_PORT:-8188}:8188"
     volumes:
       - models:/comfyUI/models
+      - custom-nodes:/comfyUI/custom_nodes
       - ./data/outputs:/comfyUI/output
     stop_signal: SIGKILL
     tty: true
@@ -17,3 +18,4 @@ services:
                 capabilities: [compute, utility]
 volumes:
   models:
+  custom-nodes:
