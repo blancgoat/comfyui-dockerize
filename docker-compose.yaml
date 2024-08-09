@@ -1,8 +1,13 @@
 services:
   comfy-ui:
-    build: /docker
+    build:
+      context: /docker
+      args:
+          - IMAGE_VERSION
+          - COMFYUI_VERSION
+          - COMFYUI_MANAGER_VERSION
     ports:
-      - "${WEBUI_PORT:-8188}:8188"
+      - "${HTTP_PORT:-8188}:8188"
     volumes:
       - models:/comfyUI/models
       - custom-nodes:/comfyUI/custom_nodes
