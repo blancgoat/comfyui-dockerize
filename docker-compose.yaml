@@ -6,6 +6,7 @@ services:
           - IMAGE_VERSION
           - COMFYUI_VERSION
           - COMFYUI_MANAGER_VERSION
+          - MIRROR_URL
     ports:
       - "${HTTP_PORT:-8188}:8188"
     volumes:
