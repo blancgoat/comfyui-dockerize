@@ -23,4 +23,5 @@ RUN git clone --branch ${COMFYUI_VERSION} https://github.com/comfyanonymous/Comf
 RUN git clone --branch ${COMFYUI_MANAGER_VERSION} https://github.com/ltdrdata/ComfyUI-Manager.git ./custom_nodes/ComfyUI-Manager && \
     pip install -r ./custom_nodes/ComfyUI-Manager/requirements.txt
 
-ENTRYPOINT ["/bin/bash", "-c", "python custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies && python main.py --listen"]
+COPY startup.sh .
+ENTRYPOINT [ "./startup.sh" ]
