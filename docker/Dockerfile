@@ -20,6 +20,7 @@ WORKDIR /comfyUI
 RUN git clone --branch ${COMFYUI_VERSION} https://github.com/comfyanonymous/ComfyUI.git . && \
     pip install -r requirements.txt
 
-RUN git clone --branch ${COMFYUI_MANAGER_VERSION} https://github.com/ltdrdata/ComfyUI-Manager.git ./custom_nodes/ComfyUI-Manager
+RUN git clone --branch ${COMFYUI_MANAGER_VERSION} https://github.com/ltdrdata/ComfyUI-Manager.git ./custom_nodes/ComfyUI-Manager && \
+    pip install -r ./custom_nodes/ComfyUI-Manager/requirements.txt
 
-ENTRYPOINT ["python", "main.py", "--listen"]
+ENTRYPOINT ["/bin/bash", "-c", "python custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies && python main.py --listen"]
