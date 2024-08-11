@@ -15,7 +15,7 @@ RUN if [ -n "$MIRROR_URL" ]; then \
 
 WORKDIR /comfyUI
 
-ARG COMFYUI_VERSION=v0.0.4
+ARG COMFYUI_VERSION=v0.0.6
 RUN git clone --branch ${COMFYUI_VERSION} https://github.com/comfyanonymous/ComfyUI.git . && \
     pip install -r requirements.txt
 
