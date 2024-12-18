@@ -7,10 +7,15 @@ ENV NVIDIA_VISIBLE_DEVICES=all
 ARG MIRROR_URL=""
 RUN if [ -n "$MIRROR_URL" ]; then \
         sed -i "s@archive.ubuntu.com@$MIRROR_URL@g" /etc/apt/sources.list; \
-    fi && \
-    apt update && \
-    apt -y install git && \
-    apt clean && \
+    fi
+
+RUN apt update && \
+    apt -y install git
+
+# 커스텀노드들이 opencv-python-headless 를 사용해주면 해결되지만 불행히도 대부분 opencv-python을 사용하고있어서 여기에 추가합니다.
+RUN apt -y install python3-opencv
+
+RUN apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /comfyUI
