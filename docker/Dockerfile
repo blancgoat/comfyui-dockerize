@@ -1,5 +1,5 @@
 # ARG values are defaults. Override them by creating a .env file or using --build-arg
-ARG IMAGE_VERSION=2.5.1-cuda12.4-cudnn9-runtime
+ARG IMAGE_VERSION=2.13.0-cuda13.0-cudnn9-devel
 FROM pytorch/pytorch:${IMAGE_VERSION}
 ENV DEBIAN_FRONTEND=noninteractive PIP_PREFER_BINARY=1
 ENV NVIDIA_VISIBLE_DEVICES=all
@@ -20,13 +20,17 @@ RUN apt clean && \
 
 WORKDIR /comfyUI
 
-ARG COMFYUI_VERSION=v0.3.7
+ARG COMFYUI_VERSION=v0.27.0
 RUN git clone --branch ${COMFYUI_VERSION} https://github.com/comfyanonymous/ComfyUI.git . && \
-    pip install -r requirements.txt
+    pip install -r requirements.txt --break-system-packages
 
-ARG COMFYUI_MANAGER_VERSION=2.55.5
+ARG COMFYUI_MANAGER_VERSION=4.2.2
 RUN git clone --branch ${COMFYUI_MANAGER_VERSION} https://github.com/ltdrdata/ComfyUI-Manager.git ./custom_nodes/ComfyUI-Manager && \
-    pip install -r ./custom_nodes/ComfyUI-Manager/requirements.txt
+    pip install -r ./custom_nodes/ComfyUI-Manager/requirements.txt --break-system-packages
+
+RUN mkdir -p /comfy_defaults && \
+    cp -r /comfyUI/models /comfy_defaults/ && \
+    cp -r /comfyUI/custom_nodes /comfy_defaults/
 
 COPY startup.sh .
 ENTRYPOINT [ "./startup.sh" ]

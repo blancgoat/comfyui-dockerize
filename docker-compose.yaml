@@ -10,9 +10,9 @@ services:
     ports:
       - "${HTTP_PORT:-8188}:8188"
     volumes:
-      - models:/comfyUI/models
-      - custom-nodes:/comfyUI/custom_nodes
-      - ./data/outputs:/comfyUI/output
+      - ./volumes/models:/comfyUI/models
+      - ./volumes/custom-nodes:/comfyUI/custom_nodes
+      - ./volumes/output:/comfyUI/output
     deploy:
       resources:
         reservations:
@@ -20,6 +20,3 @@ services:
               - driver: nvidia
                 count: all
                 capabilities: [compute, utility]
-volumes:
-  models:
-  custom-nodes:
