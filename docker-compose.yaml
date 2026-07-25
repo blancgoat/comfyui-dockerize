@@ -12,6 +12,7 @@ services:
     volumes:
       - ./volumes/models:/comfyUI/models
       - ./volumes/custom-nodes:/comfyUI/custom_nodes
+      - ./volumes/user:/comfyUI/user
       - ./volumes/output:/comfyUI/output
     deploy:
       resources:

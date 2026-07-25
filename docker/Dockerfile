@@ -12,21 +12,20 @@ RUN if [ -n "$MIRROR_URL" ]; then \
 RUN apt update && \
     apt -y install git
 
-# 커스텀노드들이 opencv-python-headless 를 사용해주면 해결되지만 불행히도 대부분 opencv-python을 사용하고있어서 여기에 추가합니다.
-RUN apt -y install python3-opencv
-
 RUN apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /comfyUI
 
-ARG COMFYUI_VERSION=v0.27.0
-RUN git clone --branch ${COMFYUI_VERSION} https://github.com/comfyanonymous/ComfyUI.git . && \
-    pip install -r requirements.txt --break-system-packages
-
+ENV COMFYUI_PATH=/comfyUI
+ENV PIP_BREAK_SYSTEM_PACKAGES=1 UV_BREAK_SYSTEM_PACKAGES=1
+ARG COMFYUI_VERSION=v0.28.0
 ARG COMFYUI_MANAGER_VERSION=4.2.2
-RUN git clone --branch ${COMFYUI_MANAGER_VERSION} https://github.com/ltdrdata/ComfyUI-Manager.git ./custom_nodes/ComfyUI-Manager && \
-    pip install -r ./custom_nodes/ComfyUI-Manager/requirements.txt --break-system-packages
+
+RUN git clone --branch ${COMFYUI_VERSION} https://github.com/comfyanonymous/ComfyUI.git . && \
+    pip install -r requirements.txt
+
+RUN pip install comfyui_manager==${COMFYUI_MANAGER_VERSION}
 
 RUN mkdir -p /comfy_defaults && \
     cp -r /comfyUI/models /comfy_defaults/ && \
